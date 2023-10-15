@@ -34,7 +34,7 @@ parser.add_argument('--basis', type=int, required=True)
 parser.add_argument('--sigma', type=float, required=True)
 # parser.add_argument('--k', type=int, required=True)
 # parser.add_argument('--n', type=int, required=True)
-parser.add_argument('-outdir', type=str, required=True)
+# parser.add_argument('-outdir', type=str, required=True)
 
 
 
@@ -71,7 +71,7 @@ ts = jnp.array([0.0, 1.0])
 
 dev = qml.device("default.qubit.jax", wires = perceptron_qubits)
 
-perceptron = Perceptron(perceptron_qubits, n_pulse_basis, basis='gaussian', pulse_width=0.01)
+perceptron = Perceptron(perceptron_qubits, n_pulse_basis, basis='gaussian', pulse_width=pulse_width)
 
 H =  perceptron.H
 
@@ -103,14 +103,14 @@ print(f'Initial gradients: {initial_gradients}')
 value_and_grad = jax.jit(jax.value_and_grad(loss))
 
 
-n_epochs = 150
+n_epochs = 400
 param_vector = perceptron.get_random_parameter_vector(jax_seed)
 
 # The following block creates a constant schedule of the learning rate
 # that increases from 0.1 to 0.5 after 10 epochs
 schedule0 = optax.constant_schedule(1)
-schedule1 = optax.constant_schedule(0.1)
-schedule = optax.join_schedules([schedule0, schedule1], [30])
+schedule1 = optax.constant_schedule(0.2)
+schedule = optax.join_schedules([schedule0, schedule1], [50])
 optimizer = optax.adam(learning_rate=schedule)
 # optimizer = optax.adam(learning_rate=1)
 opt_state = optimizer.init(param_vector)
@@ -118,6 +118,8 @@ opt_state = optimizer.init(param_vector)
 energies = np.zeros(n_epochs )
 # energy[0] = loss(param_vector)
 mean_gradients = np.zeros(n_epochs)
+
+gradients_trajectory = []
 param_trajectory = []
 
 ## Compile the evaluation and gradient function and report compilation time
@@ -136,6 +138,7 @@ for n in range(n_epochs):
     mean_gradients[n] = np.mean(np.abs(grads))
     energies[n] = val
     param_trajectory.append(param_vector)
+    gradients_trajectory.append(grads)
 
     param_vector = optax.apply_updates(param_vector, updates)
 
@@ -147,6 +150,9 @@ for n in range(n_epochs):
     if not n % 10:
         print(f"{n+1} / {n_epochs}; energy discrepancy: {val-e_ground_state_exact}")
         print(f"mean grad: {mean_gradients[n]}")
+        print(f'gradient norm: {jnp.linalg.norm(grads)}')
+        if n>=2:
+            print(f'difference of gradients: {jnp.linalg.norm(grads-gradients_trajectory[-2])}')
 
 
 
@@ -157,6 +163,10 @@ print('Results: ')
 print(f"    Found ground state: {energies[-1]}")
 
 # print(f' Test: {value_and_grad(param_trajectory[-1])}')
+
+gradients_norms = [jnp.linalg.norm(gradient) for gradient in gradients_trajectory]
+differences_of_gradients_norms = [jnp.linalg.norm(gradients_trajectory[j] - gradients_trajectory[j-1]) for j in range(1,len(gradients_trajectory))]
+
 
 # Calculating the Hessian at the final point
 
@@ -173,7 +183,10 @@ print(f'Min/Max ratio: {minmax_ratio}')
 simulation_results_dictionary = {
     'parameters_trajectory': param_trajectory,
     'energy_trajectory': energies,
-    'gradient_trajectory': mean_gradients
+    'gradient_trajectory': gradients_trajectory,
+    'mean_gradients': mean_gradients,
+    'gradients_norms': gradients_norms,
+    'differences_of_gradients_norms': differences_of_gradients_norms
 }
 
 simulation_results_dictionary['final_hessian'] = {
@@ -186,9 +199,11 @@ simulation_results_dictionary['final_hessian'] = {
 
 data_dictionary = {
       'qubits': perceptron_qubits,
-      'epochs': 150,
+      'epochs': 400,
       'transverse_field_coefficient': transverse_field_coefficient,
-      'learning_rates': (1, 0.1),
+      'learning_rates': (1, 0.2),
+      'hamiltonian_spectrum': H_obj_spectrum,
+      'exact_gs_energy': e_ground_state_exact,
       'simulation_results': simulation_results_dictionary
 }
 
