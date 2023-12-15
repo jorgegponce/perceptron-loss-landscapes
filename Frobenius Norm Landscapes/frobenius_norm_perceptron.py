@@ -9,7 +9,7 @@ import pennylane.numpy as np
 import jax
 import jax.numpy as jnp
 import optax
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # Adding parent directory to path for importing custom modules
 parent = os.path.abspath('../src')
@@ -61,11 +61,16 @@ param_vector = perceptron.get_random_parameter_vector(random_seed)
 
 initial_gradients = jax.grad(loss)(param_vector)
 
-schedule = optax.join_schedules(
-    [optax.constant_schedule(v) for v in [0.1, 0.01, 0.001]],
-    [200, 3000]
-)
-optimizer = optax.adam(learning_rate=schedule)
+# schedule = optax.join_schedules(
+#     [optax.constant_schedule(v) for v in [0.1, 0.01, 0.001]],
+#     [200, 3000]
+# )
+
+
+# optimizer = optax.adam(learning_rate=schedule)
+
+optimizer = optax.sgd(learning_rate=0.005)
+
 opt_state = optimizer.init(param_vector)
 
 # Storing simulation data

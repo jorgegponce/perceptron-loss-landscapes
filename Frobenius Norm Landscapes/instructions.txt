@@ -1,0 +1,21 @@
+export QUBITS=3 DAYS=0 HOURS=03 MINUTES=00 BASIS=11 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+
+
+
+perceptron_2_qubits_10_pulses.sbatch  perceptron_3_qubits_20_pulses.sbatch  perceptron_4_qubits_128_pulses.sbatch
+perceptron_2_qubits_12_pulses.sbatch  perceptron_3_qubits_32_pulses.sbatch  perceptron_4_qubits_256_pulses.sbatch
+perceptron_2_qubits_16_pulses.sbatch  perceptron_3_qubits_48_pulses.sbatch  perceptron_4_qubits_40_pulses.sbatch
+perceptron_2_qubits_18_pulses.sbatch  perceptron_3_qubits_64_pulses.sbatch  perceptron_4_qubits_80_pulses.sbatch
+perceptron_2_qubits_8_pulses.sbatch   perceptron_3_qubits_70_pulses.sbatch  perceptron_template.sbatch
+
+
+To dowload the simulation results, the best alternative I've found is to create a symbolic link using the 
+
+ln -s command 
+
+Then just scp from the symbolic link
+
+
+ln -s '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Frobenius Norm Landscapes/Results/2_qubits.tar.xz' /tmp/2_qubits.tar.xz
+
+
