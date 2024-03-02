@@ -40,8 +40,7 @@ class Perceptron():
         
 
         self.perceptron_hamiltonian = self.get_system_hamiltonian()
-
-
+        
 
     def get_system_hamiltonian(self):
 

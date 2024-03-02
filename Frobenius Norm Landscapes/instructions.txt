@@ -1,4 +1,32 @@
-export QUBITS=3 DAYS=0 HOURS=03 MINUTES=00 BASIS=11 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=1 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=2 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=3 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=4 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=5 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=6 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=7 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=8 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=9 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+export QUBITS=4 DAYS=0 HOURS=01 MINUTES=00 BASIS=10 && envsubst '$QUBITS , $DAYS, $HOURS, $MINUTES, $BASIS' < perceptron_template.sbatch > perceptron_${QUBITS}_qubits_${BASIS}_pulses.sbatch
+
+
+sbatch perceptron_4_qubits_10_pulses.sbatch
+sbatch perceptron_4_qubits_9_pulses.sbatch
+sbatch perceptron_4_qubits_8_pulses.sbatch
+sbatch perceptron_4_qubits_7_pulses.sbatch
+sbatch perceptron_4_qubits_6_pulses.sbatch
+sbatch perceptron_4_qubits_5_pulses.sbatch
+sbatch perceptron_4_qubits_4_pulses.sbatch
+sbatch perceptron_4_qubits_3_pulses.sbatch
+sbatch perceptron_4_qubits_2_pulses.sbatch
+sbatch perceptron_4_qubits_1_pulses.sbatch
+
+
+
+
+
+
+
 
 
 

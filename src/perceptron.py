@@ -93,7 +93,7 @@ class Perceptron():
         def fourier_field(p, t):
             # p are the trainable parameters
             # t is the time
-            return jnp.dot(p, jnp.cos(2*jnp.pi*(t)*jnp.arange(self.n_basis))) # QUESTION: WHY ARE WE MULTIPLYING BY 2?
+            return jnp.dot(p, jnp.cos(2*jnp.pi*(t)*jnp.arange(self.n_basis)))
         
         return fourier_field
     
@@ -357,7 +357,7 @@ class NativePerceptron():
         def fourier_field(p, t):
             # p are the trainable parameters
             # t is the time
-            return jnp.dot(p, jnp.cos(2*jnp.pi*(t)*jnp.arange(self.n_basis))) # QUESTION: WHY ARE WE MULTIPLYING BY 2?
+            return jnp.dot(p, jnp.cos(2*jnp.pi*(t)*jnp.arange(self.n_basis)))
         
         return fourier_field
     
