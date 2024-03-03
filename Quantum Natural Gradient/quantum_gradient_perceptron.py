@@ -54,7 +54,7 @@ H_obj = perceptron.get_1d_ising_hamiltonian(0.1)
 V = qml.matrix(qml.evolve(H_obj, 1))
 
 #Setting up Monte-Carlo Integration 
-bint = 2
+bint = 200
 dt = T/bint
 
 # Defining the loss function

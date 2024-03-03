@@ -6,7 +6,7 @@
 #SBATCH -t ${DAYS}-${HOURS}:${MINUTES} # Maximum execution time (D-HH:MM)
 #SBATCH -o '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Quantum Natural Gradient/Results/${QUBITS}_qubits/${BASIS}_pulses/perceptron_%A_%a.out' # Standard output
 #SBATCH -e '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Quantum Natural Gradient/Results/${QUBITS}_qubits/${BASIS}_pulses/perceptron_%A_%a.err' # Standard error
-#SBATCH --array=1-2  # Size of the array
+#SBATCH --array=1-10  # Size of the array
 
 conda activate perceptron-loss-landscapes-venv
 

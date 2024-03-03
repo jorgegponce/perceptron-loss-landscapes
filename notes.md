@@ -48,3 +48,5 @@ export QUBITS=4 FIELD=0.1 DAYS=0 HOURS=00 MINUTES=10 && envsubst '$QUBITS, $FIEL
 ```
 
 The command will create a file with the name `perceptron_${QUBITS}_qubits_${FIELD}_field.sbatch` on the same directory as the template, and it will have populated the specified environment variables with the assigned values.
+
+export QUBITS=4 BASIS=4 LEARNING_RATE=0.1 DAYS=0 HOURS=6 MINUTES=00 && envsubst '$QUBITS, $BASIS, $LEARNING_RATE, $DAYS, $HOURS, $MINUTES' < BATCH_TEMPLATE.sh > perceptron_${QUBITS}_qubits_${PULSES}_pulses_${LEARNING_RATE}_lr.sh
