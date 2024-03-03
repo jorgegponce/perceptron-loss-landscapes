@@ -17,7 +17,7 @@ HOURS = 6
 MINUTES = 0
 
 # Template for the filename
-filename_template = 'perceptron_{qubits}_qubits_${basis}_pulses_${lr}_lr.sh'
+filename_template = 'perceptron_{qubits}_qubits_{basis}_pulses_{lr}_lr.sh'
 
 # Loop over each LEARNING_RATE value
 for lr in learning_rates:
