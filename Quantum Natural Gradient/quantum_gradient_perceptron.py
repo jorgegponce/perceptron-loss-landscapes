@@ -12,17 +12,36 @@ from multiprocessing import Pool,cpu_count
 from perceptrons import NativePerceptron
 import optax
 import pickle
+import argparse
 
 
 # Configuration settings
 jax.config.update("jax_enable_x64", True)
 jax.config.update("jax_platform_name", "cpu")
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run quantum perceptron simulation.')
+    parser.add_argument('--qubits', type=int, required=True, help='Number of qubits')
+    parser.add_argument('--pulses', type=int, required=True, help='Number of pulses')
+    parser.add_argument('--lr', type =float, required=True, help='Learning Rate for Adam Optimizer')
+    parser.add_argument('--save_path', type=str, required=True, help='Path to save the .pkl file')
+    return parser.parse_args()
+
+
+args = parse_args()
 
 # Setting up the quantum perceptron problem
-N = 4
-pulse_basis = (N)
-save_path = ''
+
+N = args.qubits
+pulse_basis = args.pulses
+save_path = args.save_path
+lr = args.lr
+
+# N = 4
+# pulse_basis = 2*(N)
+# save_path = ''
+
+
 T = 1
 dev = qml.device("default.qubit.jax", wires=N)
 perceptron = NativePerceptron(N, pulse_basis, basis='fourier', pulse_width=0.005)
@@ -35,7 +54,7 @@ H_obj = perceptron.get_1d_ising_hamiltonian(0.1)
 V = qml.matrix(qml.evolve(H_obj, 1))
 
 #Setting up Monte-Carlo Integration 
-bint = 100
+bint = 2
 dt = T/bint
 
 # Defining the loss function
@@ -163,15 +182,16 @@ print(f'Initial gradients (with QNG): {qng_grad}')
 
 from datetime import datetime
 
-n_epochs = 200
+n_epochs = 4
 param_vector = perceptron.get_random_parameter_vector(808)
 
 
-optimizer = optax.adam(learning_rate=2)
+optimizer = optax.adam(learning_rate=lr)
 opt_state = optimizer.init(param_vector)
 
 energies = []
 mean_gradients = []
+gradients_norms = []
 
 gradients_trajectory = []
 qng_gradients_trajectory = []
@@ -189,14 +209,15 @@ for n in range(n_epochs):
 
     mean_gradients.append(jnp.mean(jnp.abs(grads)))
     energies.append(val)
+    gradients_norms.append(np.linalg.norm(qng_grad))
     param_trajectory.append(param_vector)
     gradients_trajectory.append(grads)
     qng_gradients_trajectory.append(qng_grads)
 
     param_vector = optax.apply_updates(param_vector, updates)
 
-    print(val)
-    print(jnp.linalg.norm(qng_grads))
+    # print(val)
+    # print(jnp.linalg.norm(qng_grads))
     # mean_gradients[n] = np.mean(np.abs(grads))
     # energy[n+1] = val
 
@@ -205,6 +226,18 @@ for n in range(n_epochs):
 print(f"Found ground state: {energies[-1]}")
 
 
+results_dictionary = {
+    'n_qubits': N,
+    'pulse_basis': pulse_basis,
+    'gradients_trajectory': gradients_trajectory,
+    'energies': energies,
+    'qng_gradients_trajectoy': qng_gradients_trajectory,
+    'qng_gradients_norms': gradients_norms
+}
 
 
+print(results_dictionary)
 
+
+with open(save_path, 'wb') as file:
+        pickle.dump(results_dictionary, file)
