@@ -117,8 +117,6 @@ def diagonal_MCI(index,params_list):
 
 
 
-
-
 def get_diagonal_metric_tensor(param_vector):
 
 
@@ -153,11 +151,9 @@ def get_qng_grad(param_vector, grad):
     return qng
 
 
-
-
-
-param_vector = perceptron.get_random_parameter_vector(0)
-
+# Generate a random seed based on the current time
+random_seed = int(time.time() * 1000)  # time in milliseconds
+param_vector = perceptron.get_random_parameter_vector(random_seed)
 
 
 print(f'Initial parameters: {param_vector}')
@@ -182,9 +178,7 @@ print(f'Initial gradients (with QNG): {qng_grad}')
 
 from datetime import datetime
 
-n_epochs = 4
-param_vector = perceptron.get_random_parameter_vector(808)
-
+n_epochs = 3000
 
 optimizer = optax.adam(learning_rate=lr)
 opt_state = optimizer.init(param_vector)
@@ -238,5 +232,5 @@ results_dictionary = {
 
 print(results_dictionary)
 
-with open(f'{save_path}_lr_{lr}', 'wb') as file:
+with open(save_path, 'wb') as file:
         pickle.dump(results_dictionary, file)

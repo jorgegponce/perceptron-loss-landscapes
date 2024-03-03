@@ -16,6 +16,6 @@ cd "/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Quantum Natural Grad
 
 mkdir -p "${SLURM_ARRAY_TASK_ID}"
 
-cd "/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Frobenius Norm Landscapes"
+cd "/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Quantum Natural Gradient"
 
-python "/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Frobenius Norm Landscapes/frobenius_norm_perceptron.py" --qubits ${QUBITS} --pulses ${BASIS} --save_path Results/${QUBITS}_qubits/${BASIS}_pulses/${SLURM_ARRAY_TASK_ID}/${BASIS}_pulses_simulation_data.pickle
+python "/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Quantum Natural Gradient/quantum_gradient_perceptron.py" --qubits ${QUBITS} --pulses ${BASIS} --lr ${LEARNING_RATE} --save_path Results/${QUBITS}_qubits/${BASIS}_pulses/${SLURM_ARRAY_TASK_ID}/${BASIS}_pulses_simulation_data_lr_${LEARNING_RATE}.pickle
