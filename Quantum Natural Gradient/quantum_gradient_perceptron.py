@@ -238,6 +238,5 @@ results_dictionary = {
 
 print(results_dictionary)
 
-
-with open(save_path, 'wb') as file:
+with open(f'{save_path}_lr_{lr}', 'wb') as file:
         pickle.dump(results_dictionary, file)
