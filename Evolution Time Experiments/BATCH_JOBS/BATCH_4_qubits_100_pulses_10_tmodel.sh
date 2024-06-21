@@ -1,10 +1,9 @@
-
 #!/bin/bash
 #SBATCH -J analog_perceptron_4_qubit_100_pulses_10_tmodel
 #SBATCH -c 1 # Number of cores
 #SBATCH -p shared
 #SBATCH --mem 16000
-#SBATCH -t 0-6:0 # Maximum execution time (D-HH:MM)
+#SBATCH -t 0-8:0 # Maximum execution time (D-HH:MM)
 #SBATCH -o '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Evolution Time Experiments/RESULTS/4_qubits/100_pulses_10_tmodel/perceptron_%A_%a.out' # Standard output
 #SBATCH -e '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Evolution Time Experiments/RESULTS/4_qubits/100_pulses_10_tmodel/perceptron_%A_%a.err' # Standard error
 #SBATCH --array=1-10  # Size of the array

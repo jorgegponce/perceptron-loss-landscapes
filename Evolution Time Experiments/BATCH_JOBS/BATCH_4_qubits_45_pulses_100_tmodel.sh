@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #SBATCH -J analog_perceptron_4_qubit_45_pulses_100_tmodel
 #SBATCH -c 1 # Number of cores
