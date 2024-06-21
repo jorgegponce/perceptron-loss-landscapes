@@ -20,13 +20,15 @@ class Perceptron():
 
         self.create_native_hamiltonian()
         self.create_control_hamiltonian()
+
+        self.output_control_hamiltonian = self.get_piecewise_constant_field()*qml.PauliX(self.n_qubits-1) + self.get_piecewise_constant_field()*qml.PauliY(self.n_qubits-1)
         
-        self.H = self. H_native + self.H_control 
-        
+        self.H = self. H_native + self.H_control  + self.output_control_hamiltonian
+
 
     def create_native_hamiltonian(self):
 
-        self.native_fields = [self.get_constant_field() for i in range(self.n_qubits-1)]
+        self.native_fields = [self.get_piecewise_constant_field() for i in range(self.n_qubits-1)]
         self.H_native_operators = [qml.PauliZ(i) @ qml.PauliZ(self.n_qubits-1) for i in range(self.n_qubits-1)]
 
         self.H_native = qml.dot(self.native_fields, self.H_native_operators)
@@ -168,21 +170,23 @@ class Perceptron():
 
     def vector_to_hamiltonian_parameters(self, param_vector):
 
-        n_js = self.n_qubits - 1
+        # n_js = self.n_qubits - 1
 
 
-        js_vector = param_vector[:n_js]
-        js_vector = jnp.array([1 for i in range(n_js)])
+        # js_vector = param_vector[:n_js*self.n_basis].
+        # # js_vector = jnp.array([1 for i in range(n_js)])
 
-        vs_matrix = param_vector[n_js:].reshape((-1,self.n_basis))
+        # vs_matrix = param_vector[n_js:].reshape((-1,self.n_basis))
 
-        return list(js_vector) + list(vs_matrix)
+        return list(param_vector.reshape(-1,self.n_basis))
+
+        # return list(js_vector) + list(vs_matrix)
 
         # return list(param_vector)
 
     def get_random_parameter_vector(self, seed):
 
-        n_params = self.n_qubits - 1 + 2 * self.n_qubits * self.n_basis
+        n_params = (self.n_qubits - 1)*self.n_basis + 2 * (self.n_qubits+1) * self.n_basis
 
         # n_params = 2 * self.n_qubits * self.n_basis
 
@@ -343,7 +347,7 @@ class NativePerceptron():
         def fourier_field(p, t):
             # p are the trainable parameters
             # t is the time
-            return jnp.dot(p, jnp.cos(2*jnp.pi*(t)*jnp.arange(self.n_basis))/self.n_basis) 
+            return jnp.dot(p, jnp.cos(2*jnp.pi*(t)*jnp.arange(self.n_basis))/self.timespan) 
         
         return fourier_field
     
