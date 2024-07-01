@@ -141,6 +141,21 @@ minimum_loss = np.min(energies)
 
 print(f"Minimum Norm Achieved: {minimum_loss}")
 
+print("#########################################################################################################################################\n")
+
+print(f"Calculating the Hessian: ")
+
+final_hessian = jax.jacrev(jax.jacrev(loss))(param_vector)
+final_hessian_eigenvalues = jnp.linalg.eigvals(final_hessian)
+
+min_eigval = final_hessian_eigenvalues[-1]
+max_eigval = final_hessian_eigenvalues[0]
+
+
+
+print(f"\nMinimum Eigenvalue: {min_eigval} | Max Eigenvalue {max_eigval}")
+
+
 # Saving data using pickle
 simulation_data = {
     "energies": energies,
@@ -158,6 +173,10 @@ simulation_data = {
         "t_loss":t_loss,
         "epochs": n_epochs,
         "lr": lr
+    },
+    "hessian": {
+        "matrix": final_hessian,
+        "eigenvalues": final_hessian_eigenvalues
     }
 }
 
