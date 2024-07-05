@@ -141,19 +141,45 @@ minimum_loss = np.min(energies)
 
 print(f"Minimum Norm Achieved: {minimum_loss}")
 
-print("#########################################################################################################################################\n")
+# print("#########################################################################################################################################\n")
 
-print(f"Calculating the Hessian: ")
+# print(f"Calculating the Hessian: ")
 
-final_hessian = jax.jacrev(jax.jacrev(loss))(param_vector)
-final_hessian_eigenvalues = jnp.linalg.eigvals(final_hessian)
+# final_hessian = jax.jacrev(jax.jacrev(loss))(param_vector)
+# final_hessian_eigenvalues = jnp.linalg.eigvals(final_hessian)
 
-min_eigval = final_hessian_eigenvalues[-1]
-max_eigval = final_hessian_eigenvalues[0]
+# min_eigval = final_hessian_eigenvalues[-1]
+# max_eigval = final_hessian_eigenvalues[0]
 
 
 
-print(f"\nMinimum Eigenvalue: {min_eigval} | Max Eigenvalue {max_eigval}")
+# print(f"\nMinimum Eigenvalue: {min_eigval} | Max Eigenvalue {max_eigval}")
+
+
+# # Saving data using pickle
+# simulation_data = {
+#     "energies": energies,
+#     "minimum_loss": minimum_loss,
+#     "mean_gradients": mean_gradients,
+#     "gradient_norms": gradient_norms,
+#     "gradient_diffs": gradient_diffs,
+#     "gradients_trajectory": gradients_trajectory,
+#     "param_trajectory": param_trajectory,
+#     "final_parameters": param_vector,
+#     "simulation_settings": {
+#         "qubits": perceptron_qubits,
+#         "pulses": pulse_basis,
+#         "t_model": t_model,
+#         "t_loss":t_loss,
+#         "epochs": n_epochs,
+#         "lr": lr
+#     },
+#     "hessian": {
+#         "matrix": final_hessian,
+#         "eigenvalues": final_hessian_eigenvalues
+#     }
+# }
+
 
 
 # Saving data using pickle
@@ -174,10 +200,6 @@ simulation_data = {
         "epochs": n_epochs,
         "lr": lr
     },
-    "hessian": {
-        "matrix": final_hessian,
-        "eigenvalues": final_hessian_eigenvalues
-    }
 }
 
 with open(save_path, 'wb') as file:
