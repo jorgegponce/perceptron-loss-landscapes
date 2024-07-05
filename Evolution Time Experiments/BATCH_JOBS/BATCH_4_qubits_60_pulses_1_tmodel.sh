@@ -6,7 +6,7 @@
 #SBATCH -t 0-2:0 # Maximum execution time (D-HH:MM)
 #SBATCH -o '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Evolution Time Experiments/RESULTS/4_qubits/60_pulses_1_tmodel/perceptron_%A_%a.out' # Standard output
 #SBATCH -e '/n/home08/jgarciaponce/Yelin/perceptron-loss-landscapes/Evolution Time Experiments/RESULTS/4_qubits/60_pulses_1_tmodel/perceptron_%A_%a.err' # Standard error
-#SBATCH --array=1-10  # Size of the array
+#SBATCH --array=1-100  # Size of the array
 
 conda activate perceptron-loss-landscapes-venv
 
